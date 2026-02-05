@@ -1,0 +1,1 @@
+FinFin is a full-stack finance expense tracker built using React, Spring Boot, Spring Data JPA, PostgreSQL and Hibernate, following RestAPI design. It is still an ongoing project with changes and additions to be made.
