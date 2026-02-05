@@ -1,0 +1,39 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.main {
+  flex: 1;
+  padding: 24px 32px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.nav a.active {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 10px;
+}
