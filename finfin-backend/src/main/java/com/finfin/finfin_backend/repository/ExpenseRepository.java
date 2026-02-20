@@ -2,6 +2,7 @@ package com.finfin.finfin_backend.repository;
 
 import com.finfin.finfin_backend.dto.CategoryTotalDTO;
 import com.finfin.finfin_backend.entity.Expense;
+import com.finfin.finfin_backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,9 +14,14 @@ import java.util.UUID;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    List<Expense> findByDateBetween(LocalDate start, LocalDate end);
+    List<Expense> findByUserAndDateBetween(
+            User user,
+            LocalDate start,
+            LocalDate end
+    );
 
-    List<Expense> findByCategoryAndDateBetween(
+    List<Expense> findByUserAndCategoryAndDateBetween(
+            User user,
             String category,
             LocalDate start,
             LocalDate end
@@ -27,10 +33,12 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             SUM(e.amount)
         )
         FROM Expense e
-        WHERE e.date BETWEEN :start AND :end
+        WHERE e.user = :user
+        AND e.date BETWEEN :start AND :end
         GROUP BY e.category
     """)
     List<CategoryTotalDTO> sumByCategory(
+            @Param("user") User user,
             @Param("start") LocalDate start,
             @Param("end") LocalDate end
     );
@@ -38,11 +46,12 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Query("""
         SELECT COALESCE(SUM(e.amount), 0)
         FROM Expense e
-        WHERE e.date BETWEEN :start AND :end
+        WHERE e.user = :user
+        AND e.date BETWEEN :start AND :end
     """)
     BigDecimal totalSpent(
+            @Param("user") User user,
             @Param("start") LocalDate start,
             @Param("end") LocalDate end
     );
-
 }
