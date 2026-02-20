@@ -52,4 +52,12 @@ public class ExpenseController {
         return expenseService.getMonthlyInsights(year, month);
     }
 
+    @PutMapping("/{id}")
+    public Expense updateExpense(
+            @PathVariable Long id,
+            @RequestBody Expense updatedExpense
+    ) {
+        return expenseService.updateExpense(id, updatedExpense);
+    }
+
 }

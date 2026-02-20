@@ -1,32 +1,48 @@
 import { useEffect, useState } from "react";
 import { getData, saveData } from "../utils/storage";
 import { createGoal } from "../utils/goals";
-import { computeGoalProgress } from "../utils/goals";
+import { apiGet } from "../api/client";
 
 function Goals() {
   const [goals, setGoals] = useState([]);
-  const [expenses, setExpenses] = useState([]);
   const [type, setType] = useState("monthly");
   const [limit, setLimit] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
 
+  const [totalSpent, setTotalSpent] = useState(0);
+  const [categoryTotals, setCategoryTotals] = useState([]);
+
   const now = new Date();
   const year = now.getFullYear();
-  const month = now.getMonth();
+  const month = now.getMonth(); // 0-based
 
+  // Load goals & categories (local only)
   useEffect(() => {
     const data = getData();
-    setGoals(data.Goals);
-    setExpenses(data.Expenses);
-    setCategories(data.Categories);
+    setGoals(data.Goals || []);
+    setCategories(data.Categories || []);
+  }, []);
+
+  // Fetch backend insights
+  useEffect(() => {
+    apiGet(`/expenses/insights?year=${year}&month=${month + 1}`)
+      .then((data) => {
+        setTotalSpent(Number(data.totalSpent));
+        setCategoryTotals(data.byCategory || []);
+      })
+      .catch(() => {
+        setTotalSpent(0);
+        setCategoryTotals([]);
+      });
   }, []);
 
   function addGoal(e) {
     e.preventDefault();
 
     if (!limit) return alert("Limit required");
-    if (type === "category" && !category) return alert("Category required");
+    if (type === "category" && !category)
+      return alert("Category required");
 
     const goal = createGoal({
       Type: type,
@@ -84,12 +100,20 @@ function Goals() {
       {goals.length === 0 && <p>No goals set</p>}
 
       {goals.map((g) => {
-        const { spent, remaining, percent } = computeGoalProgress(
-          g,
-          expenses,
-          year,
-          month
-        );
+        let spent = 0;
+
+        if (g.Type === "monthly") {
+          spent = totalSpent;
+        } else {
+          const found = categoryTotals.find(
+            (c) => c.category === g.Category
+          );
+          spent = found ? Number(found.total) : 0;
+        }
+
+        const remaining = g.Limit - spent;
+        const percent =
+          g.Limit > 0 ? (spent / g.Limit) * 100 : 0;
 
         return (
           <div key={g.Id} style={{ marginBottom: 16 }}>
@@ -99,8 +123,8 @@ function Goals() {
                 : `Category: ${g.Category}`}
             </strong>
             <div>Limit: ₹{g.Limit}</div>
-            <div>Spent: ₹{spent}</div>
-            <div>Remaining: ₹{remaining}</div>
+            <div>Spent: ₹{spent.toFixed(2)}</div>
+            <div>Remaining: ₹{remaining.toFixed(2)}</div>
             <div>Progress: {percent.toFixed(0)}%</div>
           </div>
         );

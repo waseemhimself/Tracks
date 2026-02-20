@@ -57,5 +57,15 @@ public class ExpenseService {
         return new MonthlyInsightsDTO(total, byCategory);
     }
 
+    public Expense updateExpense(Long id, Expense updated) {
+        Expense existing = expenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
 
+        existing.setAmount(updated.getAmount());
+        existing.setCategory(updated.getCategory());
+        existing.setDate(updated.getDate());
+        existing.setNote(updated.getNote());
+
+        return expenseRepository.save(existing);
+    }
 }
