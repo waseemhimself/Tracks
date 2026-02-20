@@ -1,0 +1,294 @@
+{
+  "info": {
+    "_postman_id": "b33a7568-1809-496f-92a1-5ffdb3cd2e68",
+    "name": "Tracks-Git",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51970274",
+    "_collection_link": "https://go.postman.co/collection/51970274-b33a7568-1809-496f-92a1-5ffdb3cd2e68?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Signup",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"write_your_email_here\",\r\n  \"password\": \"write_your_password_here\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/signup",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"write_your_email_here\",\r\n  \"password\": \"write_your_password_here\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Expense",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer write_your_token_key",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"amount\": 500,\r\n  \"category\": \"Food\",\r\n  \"date\": \"2026-02-10\",\r\n  \"note\": \"Change data as you need\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/expenses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "expenses"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Expense - Monthly",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer write_your_token_key",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/expenses/monthly?year=enter_year&month=enter_month",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "expenses",
+            "monthly"
+          ],
+          "query": [
+            {
+              "key": "year",
+              "value": "enter_year"
+            },
+            {
+              "key": "month",
+              "value": "enter_month"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Expense - Monthly&Category",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer write_your_token_key",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/expenses/monthly/category?year=enter_year&month=enter_month&category=enter_category",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "expenses",
+            "monthly",
+            "category"
+          ],
+          "query": [
+            {
+              "key": "year",
+              "value": "enter_year"
+            },
+            {
+              "key": "month",
+              "value": "enter_month"
+            },
+            {
+              "key": "category",
+              "value": "enter_category"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Expense",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer write_your_token_key",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"amount\": 500,\r\n  \"category\": \"Food\",\r\n  \"date\": \"2026-02-04\",\r\n  \"note\": \"Change data as you need\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/expenses/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "expenses",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Expense",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer write_your_token_key",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "localhost:8080/api/expenses/1",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "expenses",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Insights",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer write_your_token_key",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "localhost:8080/api/expenses/insights?year=2026&month=2\n",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "expenses",
+            "insights"
+          ],
+          "query": [
+            {
+              "key": "year",
+              "value": "2026"
+            },
+            {
+              "key": "month",
+              "value": "2\n"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
